@@ -10,10 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_01_223457) do
+ActiveRecord::Schema.define(version: 2020_03_02_191230) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "articles", force: :cascade do |t|
+    t.bigint "news_source_id"
+    t.string "title", default: "", null: false
+    t.string "description", default: ""
+    t.string "url", default: ""
+    t.string "url_to_image", default: ""
+    t.datetime "published_at", default: "2019-04-13 17:48:19", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["news_source_id"], name: "index_articles_on_news_source_id"
+  end
+
+  create_table "news_sources", force: :cascade do |t|
+    t.string "name", default: ""
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "user_news_sources", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "news_source_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["news_source_id"], name: "index_user_news_sources_on_news_source_id"
+    t.index ["user_id"], name: "index_user_news_sources_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
